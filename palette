@@ -16,8 +16,8 @@ charge_libs()
 init() {
   export SFLIB=/home/christophe/dev/app/shellfactory/lib
   charge_libs
-  buntufile_name=Buntufile
-  sflib_std_fic_test $buntufile_name
+  buntufile=Buntufile
+  sflib_std_fic_test $buntufile
 }
 
 sortie() {
