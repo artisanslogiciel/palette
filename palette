@@ -1,0 +1,49 @@
+#!/bin/bash
+# Palette installer votre distrib xBuntu grâce à un Buntufile ! 
+
+#Chargement des bibliothèques
+charge_libs()
+{
+  listeLibs="log std"
+  for lib in $listeLibs; do
+    . ${SFLIB}/${lib}.lib || erreur "Chargmenent de la bibliothèque [$lib] : impossible "
+    sflib_log_debug "Chargmenent de la bibliothèque [$lib] : OK"
+    sflib_${lib}_init || "Initialisation de la bibliothèque [$lib] : impossible "
+    sflib_log_debug "Initialisation de la bibliothèque [$lib] : OK"
+  done
+}
+
+init() {
+  export SFLIB=/home/christophe/dev/app/shellfactory/lib
+  charge_libs
+  buntufile_name=Buntufile
+  sflib_std_fic_test $buntufile_name
+}
+
+sortie() {
+  rc=$1
+  [ $SEVERITE -ne 0 ] && rc=$SEVERITE
+  [ $rc -eq 0 ] && trace "Palette install completed." || erreur "Palette install error [$rc]"
+  exit $rc
+}
+
+test_os() {
+  trace "Test OS version"
+  grep "$os_version" /etc/issue >/dev/null|| (trace "OS not $os_version" && sortie 1)
+  trace " --> Os OK"
+}
+
+install_packages() {
+  trace "Installation packages"
+  run sudo dpkg --configure -a
+  run sudo apt-get update -y
+  run sudo apt-get upgrade -y 
+}
+
+install_package() {
+  sudo apt-get install -y $*
+}
+
+init
+install_packages
+sortie 0
