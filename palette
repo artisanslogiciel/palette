@@ -33,14 +33,14 @@ test_os() {
   trace " --> Os OK"
 }
 
-install_packages() {
-  trace "Installation packages"
-  run sudo dpkg --configure -a
-  run sudo apt-get update -y
-  run sudo apt-get upgrade -y 
+upgrade() {
+  trace "Upgrade packages"
+  sudo dpkg --configure -a >/dev/null
+  sudo apt-get update -y >/dev/null
+  sudo apt-get upgrade -y  >/dev/null
 }
 
-upgrade() {
+install_package() {
   sudo apt-get install -y $*
 }
 
