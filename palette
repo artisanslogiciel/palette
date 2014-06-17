@@ -40,10 +40,38 @@ upgrade() {
   sudo apt-get upgrade -y  >/dev/null
 }
 
-install_package() {
-  sudo apt-get install -y $*
+install_deb() {
+  trace "  --> Install packet apt $packet"
+  sudo apt-get install -y $packet >/dev/null
+}
+
+install_line() {
+  mot_clef=$(echo $line|cut -f 1 -d ' ')
+  case $mot_clef in
+    source|deb) 
+    trt_$mot_clef;;
+    '');;
+    *) warning "Mot clef [$mot_clef] inconnu !"
+  esac
+}
+
+trt_source() {
+  trace "Traitement source [$line]"
+}
+
+trt_deb() {
+  trace "Traitement deb [$line]"
+  packet=$(echo $line|cut -f 2 -d ' ')
+  install_deb $packet
+}
+
+install_buntufile() {
+  while read line; do
+    install_line $line
+  done < $buntufile
 }
 
 init
-upgrade
+#upgrade
+install_buntufile
 sortie 0
