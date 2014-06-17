@@ -40,10 +40,10 @@ install_packages() {
   run sudo apt-get upgrade -y 
 }
 
-install_package() {
+upgrade() {
   sudo apt-get install -y $*
 }
 
 init
-install_packages
+upgrade
 sortie 0
