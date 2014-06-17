@@ -72,6 +72,6 @@ install_buntufile() {
 }
 
 init
-#upgrade
+upgrade
 install_buntufile
 sortie 0
