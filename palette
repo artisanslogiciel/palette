@@ -14,7 +14,7 @@ charge_libs()
 }
 
 init() {
-  export SFLIB=/home/christophe/dev/app/shellfactory/lib
+  export SFLIB=/home/christophe/dev/app/shellfactory/lib #Hou que c'est vilain ça !!!
   charge_libs
   buntufile=Buntufile
   sflib_std_fic_test $buntufile
@@ -29,7 +29,7 @@ sortie() {
 
 test_os() {
   trace "Test OS version"
-  grep "$os_version" /etc/issue >/dev/null|| (trace "OS not $os_version" && sortie 1)
+  grep "$os_version" /etc/issue >/dev/null|| (trace "OS not $os_version" && sortie 1) # Hum on utilise la LSB aujourd'hui nan ?
   trace " --> Os OK"
 }
 
