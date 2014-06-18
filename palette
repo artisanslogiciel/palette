@@ -4,8 +4,8 @@
 #Chargement des bibliothèques
 charge_libs()
 {
-  listeLibs="log std"
-  for lib in $listeLibs; do
+  libs="log std"
+  for lib in $libs; do
     . ${SFLIB}/${lib}.lib || erreur "Chargmenent de la bibliothèque [$lib] : impossible "
     sflib_log_debug "Chargmenent de la bibliothèque [$lib] : OK"
     sflib_${lib}_init || "Initialisation de la bibliothèque [$lib] : impossible "
@@ -14,7 +14,7 @@ charge_libs()
 }
 
 init() {
-  export SFLIB=/home/christophe/dev/app/shellfactory/lib
+  check_sf
   charge_libs
   buntufile=Buntufile
   sflib_std_fic_test $buntufile
@@ -25,6 +25,11 @@ sortie() {
   [ $SEVERITE -ne 0 ] && rc=$SEVERITE
   [ $rc -eq 0 ] && trace "Palette install completed." || erreur "Palette install error [$rc]"
   exit $rc
+}
+
+check_sf() {
+  [ -z "$SFLIB" ] && echo " ! ShellFactory n'est pas installé ! 
+  https://github.com/cchaudier/shellfactory" && exit 1
 }
 
 test_os() {
