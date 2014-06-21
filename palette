@@ -43,6 +43,7 @@ upgrade() {
 install_deb() {
   trace "  --> Install packet apt $packet"
   sudo apt-get install -y $packet >/dev/null
+  sflib_std_test_returncode "    Installation du packet impossible"
 }
 
 install_line() {
