@@ -69,7 +69,7 @@ trt_deb() {
 install_buntufile() {
   while read line; do
     install_line $line
-  done < $buntufile
+  done < <(grep -v '^#' $buntufile)
 }
 
 init
