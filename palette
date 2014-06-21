@@ -47,7 +47,9 @@ upgrade() {
 
 install_deb() {
   trace "  --> Install packet apt $packet"
-  sudo apt-get install -y $packet >/dev/null
+  [ -n "$version" ] && opt_version="=$version"
+  sudo apt-get install -y $packet$opt_version >/dev/null
+  sflib_std_test_returncode "    Installation du packet impossible"
 }
 
 install_line() {
@@ -66,14 +68,15 @@ trt_source() {
 
 trt_deb() {
   trace "Traitement deb [$line]"
-  packet=$(echo $line|cut -f 2 -d ' ')
-  install_deb $packet
+  packet=$(echo $line|cut -d ' ' -f 2)
+  version=$(echo $line|cut -d ' ' -f 3)
+  install_deb $packet $version
 }
 
 install_buntufile() {
   while read line; do
     install_line $line
-  done < $buntufile
+  done < <(grep -v '^#' $buntufile)
 }
 
 init
