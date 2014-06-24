@@ -38,15 +38,19 @@ test_os() {
   trace " --> Os OK"
 }
 
-upgrade() {
-  trace "Upgrade packages"
+update() {
+  trace "Update packages list"
   sudo dpkg --configure -a >/dev/null
   sudo apt-get update -y >/dev/null
+}
+
+upgrade() {
+  trace "Upgrade packages"
   sudo apt-get upgrade -y  >/dev/null
 }
 
 install_deb() {
-  trace "  --> Install packet apt $packet"
+  trace " --> Install packet apt $packet"
   [ -n "$version" ] && opt_version="=$version"
   sudo apt-get install -y $packet$opt_version >/dev/null
   sflib_std_test_returncode "    Installation du packet impossible !"
@@ -63,9 +67,13 @@ install_line() {
 }
 
 trt_source() {
-  key=$2
-  source_list=$3
-  #trace "Traitement source [$line]"
+  key=$(echo $line|cut -f 2 -d "'")
+  repo=$(echo $line|cut -f 4 -d "'")
+  trace "-> Add repository[$repo]" 
+  trace "  with key[$key]"
+  sudo apt-key adv --recv-keys --keyserver $key
+  sudo add-apt-repository "$repo"
+  update
 }
 
 trt_deb() {
@@ -81,6 +89,7 @@ install_buntufile() {
 }
 
 init
+update
 upgrade
 install_buntufile
 sortie 0
