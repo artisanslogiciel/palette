@@ -2,8 +2,7 @@
 # Palette installer votre distrib xBuntu grâce à un Buntufile ! 
 
 #Chargement des bibliothèques
-charge_libs()
-{
+charge_libs() {
   libs="log std"
   for lib in $libs; do
     . ${SFLIB}/${lib}.lib || erreur "Chargmenent de la bibliothèque [$lib] : impossible "
