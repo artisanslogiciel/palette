@@ -56,20 +56,21 @@ install_line() {
   mot_clef=$(echo $line|cut -f 1 -d ' ')
   case $mot_clef in
     source|deb) 
-    trt_$mot_clef;;
+    trt_$mot_clef $line;;
     '');;
     *) warning "Mot clef [$mot_clef] inconnu !"
   esac
 }
 
 trt_source() {
-  trace "Traitement source [$line]"
+  key=$2
+  source_list=$3
+  #trace "Traitement source [$line]"
 }
 
 trt_deb() {
-  trace "Traitement deb [$line]"
-  packet=$(echo $line|cut -d ' ' -f 2)
-  version=$(echo $line|cut -d ' ' -f 3)
+  packet=$2
+  version=$3
   install_deb $packet $version
 }
 
