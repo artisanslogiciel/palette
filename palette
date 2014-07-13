@@ -51,7 +51,7 @@ upgrade() {
 install_deb() {
   trace " --> Install packet apt $packet"
   [ -n "$version" ] && opt_version="=$version"
-  sudo apt-get install -y $packet$opt_version >/dev/null
+  sudo apt-get install -y $packet$opt_version
   sflib_std_test_returncode "    Installation du packet impossible !"
 }
 
